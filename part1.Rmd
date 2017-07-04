@@ -1,0 +1,228 @@
+
+# Package development with R-hub
+
+Learn how to create R packages, how write R package documentation
+(using `roxygen2`), how to write unit tests (with `testthat`).
+
+Learn how to check your package, locally, and on multiple platforms,
+using R-hub.
+
+R-hub is a project by the R Consortium.
+
+# Outline
+
+* Creating R packages
+
+* `R CMD check`
+
+* Finding and reading R code
+
+* Writing documentation
+
+* `rhub::check()`
+
+* Writing test cases
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!------------------------------------------------------------------------>
+
+# Why create a R package
+
+* Encapsulation: move code (+ data?) around
+* Sharing code (+ data?)
+* Distributing code (+ data?)
+* Testing code
+* Documenting code (+ data?)
+* Versioning code
+
+
+
+
+# How to create an R package
+
+1. RStudio IDE
+
+2. `devtools` package
+
+    ```
+    install.packages("devtools")
+    devtools::create()
+    ```
+
+
+
+
+
+# Parts of an R package
+
+DESCRIPTION fields:
+- Package (ropenscilabs/available)
+- Title
+- Version
+- Author
+- Maintainer
+- Description
+- License
+- URL
+- BugReports
+- Imports
+- Suggests
+
+```
+Package: rhub
+Title: Connect to 'R-hub', from R
+Version: 1.0.1
+Author: Gábor Csárdi
+Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
+Description: Run 'R CMD check' on any of the 'R-hub' architectures, from
+    the command line.
+License: MIT + file LICENSE
+URL: https://github.com/r-hub/rhub#readme
+BugReports: https://github.com/r-hub/rhub/issues
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Imports:
+    assertthat,
+    callr,
+    clisymbols,
+    crayon,
+    desc,
+    httr,
+    jsonlite,
+    parsedate,
+    prettyunits,
+    R6,
+    rappdirs,
+    rcmdcheck (>= 1.2.1),
+    rematch,
+    utils,
+    whoami,
+    withr
+Suggests:
+    covr,
+    testthat
+```
+
+
+
+
+
+# Other files
+
+
+`NAMESPACE`
+  imported/exported functions (auto-generated with roxygen2)
+
+`LICENSE`
+  may of may not need it (yes for MIT, no for GPL2)
+
+`README.md`
+  Summary of your package in Markdown format
+
+`R`
+  code
+
+`man`
+  documentation (autogenerate with roxygen2)
+
+`tests`
+  unit tests
+
+`data`
+  data
+
+`src`
+  compiled code (C/C++/Fortran)
+
+`inst`
+  extra files to put in the package
+
+
+
+
+
+# Stages of the life of an R package
+
+1. Package directory
+2. `R CMD build`: Source R package (`mypackage_1.0.0.tar.gz`)
+3. `R CMD INSTALL`: Installed R package
+4. `library(mypackage)`: loaded R package
+5. Calling an R package: `mypackage::myfunction()`
+
+We will now use `devtools`, because it allows us to `build`, `install`,
+etc. from within R:
+
+1. Package directory
+2. `devtools::build()`: Source R package (`mypackage_1.0.0.tar.gz`)
+3. `devtools::install()`: Installed R package, in a package library
+4. `library(mypackage)`: loaded & attached R package
+5. Calling an R package: `mypackage::myfunction()`
+
+While we are developing the package, we can just use
+`devtools::load_all()`, which pretends that the package is built,
+installed, loaded and attached.
+
+Tricky question. When is the code in the R package (i.e. in the `R`
+directory) evaluated? At build time? At install time? At loading time?
+At calling time?
+
+If you don't know, how would you find out?
+
+
+
+print("foo")
+
+f <- function() {
+
+}
+
+
+# Checking an R package
+
+`devtools::check` runs `R CMD check`, which performs many syntactic
+checks on your package.
+
+
+
+
+
+
+
+# Exercise
+
+Create a package that randomly praises the user. I.e. something like this:
+
+```
+❯ praise::praise()
+[1] "You are remarkable!"
+
+❯ praise::praise()
+[1] "You are transcendent!"
+
+❯ praise::praise()
+[1] "You are terrific!"
+```
+
+Run `devtools::check` on your package. Interpret the result.

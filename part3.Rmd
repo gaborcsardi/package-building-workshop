@@ -1,0 +1,41 @@
+
+# Using the `rhub` package to check on multiple platforms.
+
+```
+devtools::install_github("r-hub/rhub")
+```
+
+```
+rhub::list_validated_emails()
+rhub::validate_email()
+rhub::platforms()
+rhub::check(platform = "...")
+rhub::check_for_cran()
+```
+
+```
+rhub::last_check()
+rhub::list_my_checks()
+rhub::list_package_checks(<package>)
+```
+
+
+
+
+
+
+
+
+<!------------------------------------------------------------------------>
+
+# Write unit tests
+
+```
+devtools::use_testthat()
+```
+
+
+
+# Exercise
+
+Add unit tests to `praise`

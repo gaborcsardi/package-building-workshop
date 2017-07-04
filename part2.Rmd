@@ -1,0 +1,178 @@
+
+# Finding and reading R code
+
+## Search package metadata
+
+https://r-pkg.org
+https://www.rdocumentation.org/
+
+## Search code
+
+https://github.com
+
+Search term: user:cran function
+
+## Browse code
+
+https://github.com/cran/
+
+## Downloading code
+
+```
+git clone https://github.com/cran/<pkg>
+```
+
+Or, you can find the original development repository:
+
+```
+git clone https://github.com/gaborcsardi/progress
+```
+
+Or, download a source `.zip` file from GitHub and uncompress it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Exercise
+
+Find an R package you like on GitHub, and download its source code
+to your machine. Uncompress it. Try running `devtools::load_all()` on it.
+(If the package has compiled code, and you work on Windows, you'll need
+to install Rtools from https://cran.r-project.org/bin/windows/Rtools/)
+
+
+
+
+
+
+
+
+
+# Writing documentation
+
+Back to our praising package! Let's fix all `R CMD check` failures!
+
+## Using `roxygen2`
+
+```
+install.packages("roxygen2")
+devtools::document()
+```
+
+## Exporting functions
+
+1.
+
+```
+#' @export
+myfunction <- function() {
+  ...
+}
+```
+
+2.
+
+```
+devtools::document()
+devtools::load_all()
+```
+
+
+
+
+## Importing functions
+
+String templating with glue:
+
+```
+a <- "this"
+b <- "that"
+glue::glue("This is {a} and that is {b}")
+```
+
+Let's allow our praising functions to use templates:
+
+```
+praise("You are {great}!")
+praise("I think you look particularly {great} today!")
+```
+
+1.
+
+Import the `glue` function from `glue`:
+
+```
+#' @importFrom glue glue
+```
+
+2.
+
+Also add it to `DESCRIPTION`:
+
+```
+Imports: glue
+```
+
+3.
+
+```
+devtools::document()
+devtools::load_all()
+devtools::check()
+```
+
+
+
+
+
+
+## Writing the documentation of the function
+
+```
+#' TITLE IN TITLE-CASE (PARAGRAPH)
+#'
+#' SHORT DESCRIPTION (PARAGRAPH)
+#'
+#' LONG DESCRIPTION (PARAGRAPHS)
+#'
+#' @param template Character scalar, a template that contains a
+#'  `{great}` pattern, which will be substituted with the random praising
+#'  adjective.
+#' @return Character scalar, the substituted template.
+#'
+#' @export
+#' @importFrom glue glue
+#' @examples
+#'
+#' # default template
+#' praise()
+#'
+#' # custom templates
+#' praise("You look {great} today!")
+#' praise("Wow, that was just {great}!")
+
+praise <- function....
+```
+
+```
+devtools::document()
+devtools::load_all()
+?praise
+devtools::check()
+```
+
+# Exercise
+
+Write the documentation of the `praise` function.
+Run `devtools::check()`
+
+If you see more problems, try to fix them.
